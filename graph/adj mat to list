@@ -1,0 +1,18 @@
+class Solution {
+    public ArrayList<ArrayList<Integer>> matToAdj(int[][] mat) {
+        ArrayList<ArrayList<Integer>>result=new ArrayList<>();
+        int row=mat.length;
+        int col=mat[0].length;
+        for(int i=0;i<row;i++){
+            
+            ArrayList<Integer>list=new ArrayList<>();
+            for(int j=0;j<col;j++){
+                if(mat[i][j]==1){
+                    list.add(j);
+                }
+            }
+            result.add(list);
+        }
+        return result;
+    }
+}

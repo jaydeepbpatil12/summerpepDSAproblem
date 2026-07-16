@@ -1,0 +1,37 @@
+import java.util.ArrayList;
+
+class Solution {
+    
+    // Recursive helper method to traverse the graph
+    private void dfsHelper(int current, boolean[] visited, ArrayList<ArrayList<Integer>> adj, ArrayList<Integer> result) {
+        // Mark the current node as visited and add it to our output list
+        visited[current] = true;
+        result.add(current);
+
+        // Iterate through all neighbors of the current node
+        for (int neighbor : adj.get(current)) {
+            // If the neighbor hasn't been visited, recursively visit it
+            if (!visited[neighbor]) {
+                dfsHelper(neighbor, visited, adj, result);
+            }
+        }
+    }
+
+    // Main function to return a list containing the DFS traversal of the graph
+    public ArrayList<Integer> dfs(ArrayList<ArrayList<Integer>> adj) {
+        ArrayList<Integer> result = new ArrayList<>();
+        
+        // Get the number of vertices in the graph
+        int numVertices = adj.size();
+        
+        // Array to keep track of visited nodes to prevent infinite loops (cycles)
+        boolean[] visited = new boolean[numVertices];
+        
+        // Start DFS from node 0 (standard for this type of problem signature)
+        if (numVertices > 0) {
+            dfsHelper(0, visited, adj, result);
+        }
+        
+        return result;
+    }
+}
