@@ -1,0 +1,37 @@
+class Solution {
+    private boolean checkbp(int src ,int color,int[] vis,int[][] graph){
+        vis[src]=color;
+        int nextcolor;
+        if(color==1){
+            nextcolor=2;
+        }else{
+            nextcolor=1;
+        }
+        for(int neighbor : graph[src]){
+            if(vis[neighbor]==0){
+                if(!checkbp(neighbor,nextcolor,vis,graph)){
+                    return false;
+                }
+            }else if (vis[neighbor]==color){
+                return false;
+            }
+        }
+        return true;
+    }
+    public boolean isBipartite(int[][] graph) {
+    int n=graph.length;
+    int[] vis=new int[n];
+
+    for(int i=0;i<n;i++){
+        if(vis[i]==0){
+            if(!checkbp(i,1,vis,graph)){
+                return false;
+            }
+        }
+    }
+    return true;
+
+    }
+}
+
+
