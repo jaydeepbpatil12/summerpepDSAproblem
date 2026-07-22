@@ -1,0 +1,39 @@
+class Solution {
+    private boolean check(int src,int[] vis,ArrayList<ArrayList<Integer>>list){
+        if(vis[src]==1){
+            return true;
+        }
+        if(vis[src]==2){
+            return false;
+        }
+        vis[src]=1;
+        for(int neighbor : list.get(src)){
+                if(check(neighbor,vis,list)){
+                    return true;
+                }
+        }
+        vis[src]=2;
+        return false;
+
+    }
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        ArrayList<ArrayList<Integer>>list=new ArrayList<>();
+        for(int i=0;i<numCourses;i++){
+            list.add(new ArrayList<>());
+        } 
+        for(int[] arr:prerequisites){
+            int u=arr[0];
+            int v=arr[1];
+            list.get(u).add(v);
+        }
+        int[] vis=new int[numCourses];
+        for(int i=0;i<numCourses;i++){
+            if(vis[i]==0){
+                if(check(i,vis,list)){
+                    return false;
+                }
+            }
+        }
+        return true;
+        }
+}

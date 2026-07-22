@@ -1,0 +1,33 @@
+class Solution {
+    private void gettoposort(int src,int[] vis,ArrayList<ArrayList<Integer>>graph,ArrayList<Integer>result){
+        vis[src]=1;
+        for(int neighbor : graph.get(src)){
+            if(vis[neighbor]==0){
+                gettoposort(neighbor,vis,graph,result);
+                
+            }
+        }
+        result.add(src);
+    }
+    public ArrayList<Integer> topoSort(int V, int[][] edges) {
+        // code here
+        ArrayList<ArrayList<Integer>>graph=new ArrayList<>();
+        for(int i=0;i<V;i++){
+            graph.add(new ArrayList<>());
+        }
+        for(int[] arr:edges){
+            int u=arr[0];
+            int v=arr[1];
+            graph.get(u).add(v);
+        }
+        ArrayList<Integer>result=new ArrayList<>();
+        int[] vis=new int[V];
+        for(int i=0;i<V;i++){
+            if(vis[i]==0){
+                gettoposort(i,vis,graph,result);
+            }
+        }
+       Collections.reverse(result);
+       return result;
+    }
+}
