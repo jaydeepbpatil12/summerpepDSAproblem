@@ -1,0 +1,75 @@
+class Solution {
+    private boolean dfs(StringBuilder ans , int src, int[] vis,ArrayList<ArrayList<Integer>>graph){
+        vis[src]=1;
+        for(int neighbor : graph.get(src)){
+            if(vis[neighbor]==1){
+                return false;
+            }else if(vis[neighbor]==0){
+                if(!dfs(ans,neighbor,vis,graph)){
+                    return false;
+                }
+            }
+            
+        }
+        ans.append((char)(src+'a'));
+        vis[src]=2;
+        return true;
+    }
+    public String findOrder(String[] words) {
+        int n=words.length;
+        boolean[] present = new boolean[26];
+        for(String word:words){
+            for(char c:word.toCharArray()){
+                present[c-'a']=true;
+            }
+        }
+        int j=0;
+        ArrayList<ArrayList<Character>>relation=new ArrayList<>();
+        for(int i=1;i<n;i++){
+            String a=words[j];
+            String b=words[i];
+            if(a.length()>b.length() && a.startsWith(b)){
+                return "";
+            }
+            int c1=0;
+            int c2=0;
+            while(c1<a.length() && c2<b.length()){
+                if(a.charAt(c1)==b.charAt(c2)){
+                    c1++;
+                    c2++;
+                }else{
+                    ArrayList<Character>temp=new ArrayList<>();
+                    temp.add(a.charAt(c1));
+                    temp.add(b.charAt(c2));
+                    relation.add(temp);
+                    break;
+                }
+            }
+            j++;
+        }
+        ArrayList<ArrayList<Integer>>graph=new ArrayList<>();
+        for(int i=0;i<26;i++){
+            graph.add(new ArrayList<>());
+        }
+        for(ArrayList<Character>list :relation){
+            char u=list.get(0);
+            char v=list.get(1);
+            int a=u - 'a';
+            int b=v - 'a';
+            graph.get(a).add(b);
+        }
+        
+        StringBuilder ans =new StringBuilder();
+        int[] vis=new int[26];
+        for(int i=0;i<26;i++){
+            if(present[i]==true && vis[i]==0){
+                if(!dfs(ans,i,vis,graph)){
+                    return "";
+                }
+            }
+        }
+        return ans.reverse().toString();
+    }
+}
+
+
